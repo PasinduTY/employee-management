@@ -1,9 +1,7 @@
-﻿namespace EmployeeManagementAPI.Models
+﻿namespace EmployeeManagementAPI.DTOs
 {
-    public class Department
+    public class DepartmentCreateDTO
     {
-        public int DepartmentId { get; set; }
-
         public string DepartmentCode { get; set; }
 
         public string DepartmentName { get; set; }
