@@ -3,12 +3,17 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { createDepartment, updateDepartment } from "../../api/departmentApi";
 import api from "../../api/api";
+import Notification from "../../components/Notification";
 
 function DepartmentForm() {
   const [form, setForm] = useState({ departmentCode: "", departmentName: "" });
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
   const { id } = useParams(); // undefined for create, defined for edit
+  const [notification, setNotification] = useState({
+    message: "",
+    type: "success",
+  });
 
   // Fetch department details if editing
   useEffect(() => {
@@ -42,9 +47,18 @@ function DepartmentForm() {
     try {
       if (id) await updateDepartment(id, form);
       else await createDepartment(form);
-      navigate("/departments");
+
+      setNotification({
+        message: id
+          ? "Department updated successfully"
+          : "Department created successfully",
+        type: "success",
+      });
+
+      setTimeout(() => navigate("/departments"), 1000);
     } catch (error) {
       console.error("Error saving department:", error);
+      setNotification({ message: "Failed to save department", type: "error" });
     }
   };
 
@@ -60,6 +74,12 @@ function DepartmentForm() {
   return (
     <div className="container mt-4">
       <h2 className="mb-4">{id ? "Edit Department" : "Add Department"}</h2>
+
+      <Notification
+        message={notification.message}
+        type={notification.type}
+        onClose={() => setNotification({ message: "", type: "success" })}
+      />
 
       <form onSubmit={handleSubmit}>
         <div className="mb-3">

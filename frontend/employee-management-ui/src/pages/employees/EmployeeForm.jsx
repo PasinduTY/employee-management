@@ -6,10 +6,15 @@ import {
 } from "../../api/employeeApi";
 import { getDepartments } from "../../api/departmentApi";
 import { useNavigate, useParams } from "react-router-dom";
+import Notification from "../../components/Notification";
 
 function EmployeeForm() {
   const navigate = useNavigate();
   const { id } = useParams();
+  const [notification, setNotification] = useState({
+    message: "",
+    type: "success",
+  });
 
   const [departments, setDepartments] = useState([]);
 
@@ -151,9 +156,17 @@ function EmployeeForm() {
         await createEmployee(form);
       }
 
-      navigate("/employees");
+      setNotification({
+        message: id
+          ? "Employee updated successfully"
+          : "Employee created successfully",
+        type: "success",
+      });
+
+      setTimeout(() => navigate("/employees"), 1000);
     } catch (error) {
       console.error("Save failed:", error);
+      setNotification({ message: "Save failed", type: "error" });
     }
   };
 
@@ -170,6 +183,12 @@ function EmployeeForm() {
   return (
     <div className="container mt-4">
       <h2 className="mb-4">{id ? "Edit Employee" : "Add Employee"}</h2>
+
+      <Notification
+        message={notification.message}
+        type={notification.type}
+        onClose={() => setNotification({ message: "", type: "success" })}
+      />
 
       <form onSubmit={handleSubmit}>
         <div className="mb-3">

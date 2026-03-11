@@ -32,46 +32,64 @@ namespace EmployeeManagementAPI.Controllers
             {
                 return NotFound();
             }
-            return CreatedAtAction(nameof(GetById), new { id = department.DepartmentId }, department);
+            return Ok(department);
         }
 
         [HttpPost]
         public IActionResult Create([FromBody] DepartmentCreateDTO dto)
         {
-            var department = new Department
+            try
             {
-                DepartmentCode = dto.DepartmentCode,
-                DepartmentName = dto.DepartmentName
-            };
+                var department = new Department
+                {
+                    DepartmentCode = dto.DepartmentCode,
+                    DepartmentName = dto.DepartmentName
+                };
 
-            int id = _service.CreateDepartment(department);
-            department.DepartmentId = id;
-            return Ok(department);
+                int id = _service.CreateDepartment(department);
+                department.DepartmentId = id;
+
+                return Ok(department);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody] DepartmentCreateDTO dto)
         {
-            var department = new Department
+            try
             {
-                DepartmentId = id,
-                DepartmentCode = dto.DepartmentCode,
-                DepartmentName = dto.DepartmentName
-            };
+                var department = new Department
+                {
+                    DepartmentId = id,
+                    DepartmentCode = dto.DepartmentCode,
+                    DepartmentName = dto.DepartmentName
+                };
 
-            bool updated = _service.UpdateDepartment(id, department);
-            if (!updated) 
-            { 
-                return NotFound(); 
+                bool updated = _service.UpdateDepartment(id, department);
+
+                if (!updated)
+                    return NotFound(new { message = "Department not found" });
+
+                return Ok(department);
             }
-            return Ok(department);
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
             bool deleted = _service.DeleteDepartment(id);
-            if (!deleted) return NotFound();
+            if (!deleted)
+            {
+                return NotFound();
+            }
             return Ok($"Department {id} deleted successfully");
         }
     }

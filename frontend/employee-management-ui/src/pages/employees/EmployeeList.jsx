@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
 import { getEmployees, deleteEmployee } from "../../api/employeeApi";
 import { useNavigate } from "react-router-dom";
+import Notification from "../../components/Notification";
 
 function EmployeeList() {
   const [employees, setEmployees] = useState([]);
   const navigate = useNavigate();
+  const [notification, setNotification] = useState({
+    message: "",
+    type: "success",
+  });
 
   const fetchEmployees = async () => {
     try {
@@ -24,15 +29,25 @@ function EmployeeList() {
 
     try {
       await deleteEmployee(id);
+      setNotification({
+        message: "Employee deleted successfully",
+        type: "success",
+      });
       fetchEmployees();
     } catch (error) {
-      console.error("Delete failed", error);
+      setNotification({ message: "Delete failed", type: "error" });
     }
   };
 
   return (
     <div className="container mt-4">
       <h2 className="mb-4">Employees</h2>
+
+      <Notification
+        message={notification.message}
+        type={notification.type}
+        onClose={() => setNotification({ message: "", type: "success" })}
+      />
 
       <button
         className="btn btn-primary"

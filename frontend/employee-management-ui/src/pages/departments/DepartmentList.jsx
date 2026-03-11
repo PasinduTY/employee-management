@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
 import { getDepartments, deleteDepartment } from "../../api/departmentApi";
 import { useNavigate } from "react-router-dom";
+import Notification from "../../components/Notification";
 
 function DepartmentList() {
   const [departments, setDepartments] = useState([]);
   const navigate = useNavigate();
+  const [notification, setNotification] = useState({
+    message: "",
+    type: "success",
+  });
 
   // Fetch departments from backend
   const fetchDepartments = async () => {
@@ -25,9 +30,17 @@ function DepartmentList() {
     if (window.confirm("Are you sure you want to delete this department?")) {
       try {
         await deleteDepartment(id);
-        fetchDepartments(); // refresh list
+        setNotification({
+          message: "Department deleted successfully",
+          type: "success",
+        });
+        fetchDepartments();
       } catch (error) {
-        console.error("Error deleting department:", error);
+        setNotification({
+          message: "Failed to delete department",
+          type: "error",
+        });
+        console.error(error);
       }
     }
   };
@@ -35,6 +48,12 @@ function DepartmentList() {
   return (
     <div className="container mt-4">
       <h2 className="mb-4">Departments</h2>
+
+      <Notification
+        message={notification.message}
+        type={notification.type}
+        onClose={() => setNotification({ message: "", type: "success" })}
+      />
 
       <button
         className="btn btn-primary mb-3"
