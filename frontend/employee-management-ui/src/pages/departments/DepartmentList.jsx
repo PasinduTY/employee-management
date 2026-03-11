@@ -33,14 +33,18 @@ function DepartmentList() {
   };
 
   return (
-    <div>
-      <h2>Departments</h2>
-      <button onClick={() => navigate("/departments/create")}>
+    <div className="container mt-4">
+      <h2 className="mb-4">Departments</h2>
+
+      <button
+        className="btn btn-primary mb-3"
+        onClick={() => navigate("/departments/create")}
+      >
         Add Department
       </button>
 
-      <table border="1" cellPadding="5" style={{ marginTop: "20px" }}>
-        <thead>
+      <table className="table table-striped table-bordered">
+        <thead className="table-dark">
           <tr>
             <th>ID</th>
             <th>Code</th>
@@ -56,13 +60,17 @@ function DepartmentList() {
               <td>{dept.departmentName}</td>
               <td>
                 <button
+                  className="btn btn-warning btn-sm me-2"
                   onClick={() =>
                     navigate(`/departments/edit/${dept.departmentId}`)
                   }
                 >
                   Edit
                 </button>
-                <button onClick={() => handleDelete(dept.departmentId)}>
+                <button
+                  className="btn btn-danger btn-sm"
+                  onClick={() => handleDelete(dept.departmentId)}
+                >
                   Delete
                 </button>
               </td>

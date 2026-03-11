@@ -31,8 +31,8 @@ function EmployeeList() {
   };
 
   return (
-    <div>
-      <h2>Employees</h2>
+    <div className="container mt-4">
+      <h2 className="mb-4">Employees</h2>
 
       <button
         className="btn btn-primary"

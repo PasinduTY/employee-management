@@ -22,6 +22,8 @@ function EmployeeForm() {
     departmentId: "",
   });
 
+  const [errors, setErrors] = useState({});
+
   const [age, setAge] = useState(0);
 
   useEffect(() => {
@@ -80,8 +82,67 @@ function EmployeeForm() {
     }
   };
 
+  const validateForm = () => {
+    const newErrors = {};
+
+    // First Name
+    if (!form.firstName.trim()) {
+      newErrors.firstName = "First name is required";
+    }
+
+    // Last Name
+    if (!form.lastName.trim()) {
+      newErrors.lastName = "Last name is required";
+    }
+
+    // Email
+    if (!form.email) {
+      newErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(form.email)) {
+      newErrors.email = "Invalid email format";
+    }
+
+    // DOB
+    if (!form.dateOfBirth) {
+      newErrors.dateOfBirth = "Date of birth is required";
+    } else {
+      const dob = new Date(form.dateOfBirth);
+      const today = new Date();
+
+      if (dob > today) {
+        newErrors.dateOfBirth = "DOB cannot be in the future";
+      }
+
+      if (age < 18) {
+        newErrors.dateOfBirth = "Employee must be at least 18 years old";
+      }
+    }
+
+    // Salary
+    if (!form.salary) {
+      newErrors.salary = "Salary is required";
+    } else if (form.salary <= 0) {
+      newErrors.salary = "Salary must be greater than 0";
+    }
+
+    // Department
+    if (!form.departmentId) {
+      newErrors.departmentId = "Please select a department";
+    }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const isValid = validateForm();
+
+    if (!isValid) {
+      return;
+    }
 
     try {
       if (id) {
@@ -91,8 +152,8 @@ function EmployeeForm() {
       }
 
       navigate("/employees");
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      console.error("Save failed:", error);
     }
   };
 
@@ -113,48 +174,64 @@ function EmployeeForm() {
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label className="form-label">First Name</label>
+
           <input
-            className="form-control"
+            className={`form-control ${errors.firstName ? "is-invalid" : ""}`}
             name="firstName"
             value={form.firstName}
             onChange={handleChange}
-            required
           />
+
+          {errors.firstName && (
+            <div className="invalid-feedback">{errors.firstName}</div>
+          )}
         </div>
 
         <div className="mb-3">
           <label className="form-label">Last Name</label>
+
           <input
-            className="form-control"
+            className={`form-control ${errors.lastName ? "is-invalid" : ""}`}
             name="lastName"
             value={form.lastName}
             onChange={handleChange}
-            required
           />
+
+          {errors.lastName && (
+            <div className="invalid-feedback">{errors.lastName}</div>
+          )}
         </div>
 
         <div className="mb-3">
           <label className="form-label">Email</label>
+
           <input
-            className="form-control"
+            className={`form-control ${errors.email ? "is-invalid" : ""}`}
             type="email"
             name="email"
             value={form.email}
             onChange={handleChange}
-            required
           />
+
+          {errors.email && (
+            <div className="invalid-feedback">{errors.email}</div>
+          )}
         </div>
 
         <div className="mb-3">
           <label className="form-label">Date of Birth</label>
+
           <input
-            className="form-control"
+            className={`form-control ${errors.dateOfBirth ? "is-invalid" : ""}`}
             type="date"
             name="dateOfBirth"
             value={form.dateOfBirth}
             onChange={handleChange}
-            required
           />
+
+          {errors.dateOfBirth && (
+            <div className="invalid-feedback">{errors.dateOfBirth}</div>
+          )}
         </div>
 
         <div className="mb-3">
@@ -164,25 +241,28 @@ function EmployeeForm() {
 
         <div className="mb-3">
           <label className="form-label">Salary</label>
+
           <input
-            className="form-control"
+            className={`form-control ${errors.salary ? "is-invalid" : ""}`}
             type="number"
             name="salary"
             value={form.salary}
             onChange={handleChange}
-            required
           />
+
+          {errors.salary && (
+            <div className="invalid-feedback">{errors.salary}</div>
+          )}
         </div>
 
         <div className="mb-3">
           <label className="form-label">Department</label>
 
           <select
-            className="form-select"
+            className={`form-select ${errors.departmentId ? "is-invalid" : ""}`}
             name="departmentId"
             value={form.departmentId}
             onChange={handleChange}
-            required
           >
             <option value="">Select Department</option>
 
@@ -192,6 +272,10 @@ function EmployeeForm() {
               </option>
             ))}
           </select>
+
+          {errors.departmentId && (
+            <div className="invalid-feedback">{errors.departmentId}</div>
+          )}
         </div>
 
         <div className="mt-3">
