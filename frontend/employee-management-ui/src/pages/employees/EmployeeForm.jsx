@@ -107,73 +107,103 @@ function EmployeeForm() {
   };
 
   return (
-    <div>
-      <h2>{id ? "Edit Employee" : "Add Employee"}</h2>
+    <div className="container mt-4">
+      <h2 className="mb-4">{id ? "Edit Employee" : "Add Employee"}</h2>
 
       <form onSubmit={handleSubmit}>
-        <input
-          name="firstName"
-          placeholder="First Name"
-          value={form.firstName}
-          onChange={handleChange}
-          required
-        />
+        <div className="mb-3">
+          <label className="form-label">First Name</label>
+          <input
+            className="form-control"
+            name="firstName"
+            value={form.firstName}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
-        <input
-          name="lastName"
-          placeholder="Last Name"
-          value={form.lastName}
-          onChange={handleChange}
-          required
-        />
+        <div className="mb-3">
+          <label className="form-label">Last Name</label>
+          <input
+            className="form-control"
+            name="lastName"
+            value={form.lastName}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
-        <input
-          name="email"
-          placeholder="Email"
-          type="email"
-          value={form.email}
-          onChange={handleChange}
-          required
-        />
+        <div className="mb-3">
+          <label className="form-label">Email</label>
+          <input
+            className="form-control"
+            type="email"
+            name="email"
+            value={form.email}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
-        <input
-          name="dateOfBirth"
-          type="date"
-          value={form.dateOfBirth}
-          onChange={handleChange}
-          required
-        />
+        <div className="mb-3">
+          <label className="form-label">Date of Birth</label>
+          <input
+            className="form-control"
+            type="date"
+            name="dateOfBirth"
+            value={form.dateOfBirth}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
-        <div>Age: {age}</div>
+        <div className="mb-3">
+          <label className="form-label">Age</label>
+          <div className="form-control bg-light">{age}</div>
+        </div>
 
-        <input
-          name="salary"
-          type="number"
-          placeholder="Salary"
-          value={form.salary}
-          onChange={handleChange}
-          required
-        />
+        <div className="mb-3">
+          <label className="form-label">Salary</label>
+          <input
+            className="form-control"
+            type="number"
+            name="salary"
+            value={form.salary}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
-        <select
-          name="departmentId"
-          value={form.departmentId}
-          onChange={handleChange}
-          required
-        >
-          <option value="">Select Department</option>
+        <div className="mb-3">
+          <label className="form-label">Department</label>
 
-          {departments.map((dep) => (
-            <option key={dep.departmentId} value={dep.departmentId}>
-              {dep.departmentName}
-            </option>
-          ))}
-        </select>
+          <select
+            className="form-select"
+            name="departmentId"
+            value={form.departmentId}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Select Department</option>
 
-        <div style={{ marginTop: "10px" }}>
-          <button type="submit">{id ? "Update" : "Create"}</button>
+            {departments.map((dep) => (
+              <option key={dep.departmentId} value={dep.departmentId}>
+                {dep.departmentName}
+              </option>
+            ))}
+          </select>
+        </div>
 
-          <button type="button" onClick={handleCancel}>
+        <div className="mt-3">
+          <button className="btn btn-success me-2" type="submit">
+            {id ? "Update" : "Create"}
+          </button>
+
+          <button
+            className="btn btn-secondary"
+            type="button"
+            onClick={handleCancel}
+          >
             Cancel
           </button>
         </div>

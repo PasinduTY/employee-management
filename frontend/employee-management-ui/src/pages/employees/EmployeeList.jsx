@@ -34,12 +34,15 @@ function EmployeeList() {
     <div>
       <h2>Employees</h2>
 
-      <button onClick={() => navigate("/employees/create")}>
+      <button
+        className="btn btn-primary"
+        onClick={() => navigate("/employees/create")}
+      >
         Add Employee
       </button>
 
-      <table border="1" cellPadding="5" style={{ marginTop: "20px" }}>
-        <thead>
+      <table className="table table-striped table-bordered mt-3">
+        <thead className="table-dark">
           <tr>
             <th>ID</th>
             <th>Name</th>
@@ -73,12 +76,16 @@ function EmployeeList() {
 
               <td>
                 <button
+                  className="btn btn-warning btn-sm me-2"
                   onClick={() => navigate(`/employees/edit/${emp.employeeId}`)}
                 >
                   Edit
                 </button>
 
-                <button onClick={() => handleDelete(emp.employeeId)}>
+                <button
+                  className="btn btn-danger btn-sm"
+                  onClick={() => handleDelete(emp.employeeId)}
+                >
                   Delete
                 </button>
               </td>
