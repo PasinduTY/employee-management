@@ -416,3 +416,41 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# -----------------------------
+# React / Node
+# -----------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+yarn.lock
+
+# React build outputs
+build/
+dist/
+
+# Next.js / Vite / other modern bundlers
+.next/
+.vite/
+
+# Environment files
+.env
+.env.local
+.env.development
+.env.production
+
+# Logs
+logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# -----------------------------
+# API Secrets
+# -----------------------------
+appsettings.Development.json
+appsettings.Local.json
