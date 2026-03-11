@@ -28,8 +28,11 @@ namespace EmployeeManagementAPI.Controllers
         public IActionResult GetById(int id)
         {
             var department = _service.GetDepartmentById(id);
-            if (department == null) return NotFound();
-            return Ok(department);
+            if (department == null)
+            {
+                return NotFound();
+            }
+            return CreatedAtAction(nameof(GetById), new { id = department.DepartmentId }, department);
         }
 
         [HttpPost]
@@ -42,9 +45,7 @@ namespace EmployeeManagementAPI.Controllers
             };
 
             int id = _service.CreateDepartment(department);
-
             department.DepartmentId = id;
-
             return Ok(department);
         }
 

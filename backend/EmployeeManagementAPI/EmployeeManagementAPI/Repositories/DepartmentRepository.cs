@@ -75,9 +75,7 @@ namespace EmployeeManagementAPI.Repositories
                 cmd.Parameters.AddWithValue("@Name", department.DepartmentName);
 
                 connection.Open();
-
                 var id = cmd.ExecuteScalar();
-
                 return Convert.ToInt32(id);
             }
         }

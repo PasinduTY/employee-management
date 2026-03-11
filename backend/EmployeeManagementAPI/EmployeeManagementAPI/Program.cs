@@ -13,6 +13,8 @@ builder.Services.AddOpenApi();
 builder.Services.AddScoped<DbConnectionFactory>();
 builder.Services.AddScoped<DepartmentRepository>();
 builder.Services.AddScoped<DepartmentService>();
+builder.Services.AddScoped<EmployeeRepository>();
+builder.Services.AddScoped<EmployeeService>();
 
 var app = builder.Build();
 
