@@ -44,7 +44,7 @@ namespace EmployeeManagementAPI.Repositories
             {
                 string query = "SELECT * FROM Department WHERE DepartmentId = @Id";
                 SqlCommand cmd = new SqlCommand(query, connection);
-                cmd.Parameters.AddWithValue("@Id", id); // Parameterized query
+                cmd.Parameters.AddWithValue("@Id", id); 
                 connection.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
                 if (reader.Read())
@@ -92,7 +92,7 @@ namespace EmployeeManagementAPI.Repositories
                 cmd.Parameters.AddWithValue("@Id", id);
                 connection.Open();
                 int rows = cmd.ExecuteNonQuery();
-                return rows > 0; // returns true if update succeeded
+                return rows > 0; 
             }
         }
 
@@ -106,7 +106,7 @@ namespace EmployeeManagementAPI.Repositories
                 cmd.Parameters.AddWithValue("@Id", id);
                 connection.Open();
                 int rows = cmd.ExecuteNonQuery();
-                return rows > 0; // true if delete succeeded
+                return rows > 0; 
             }
         }
     }

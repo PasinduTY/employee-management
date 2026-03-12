@@ -30,7 +30,6 @@
 
         public int DepartmentId { get; set; }
 
-        // Optional: include department name for joins
         public string DepartmentName { get; set; }
     }
 }
